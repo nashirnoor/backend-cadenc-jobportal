@@ -118,9 +118,9 @@ CORS_ALLOW_METHODS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cadenc',
-        'USER':'postgres',
-        'PASSWORD':'1111',
+        'NAME': 'myproject',
+        'USER': 'myprojectuser',
+        'PASSWORD':'password',
         'HOST':'localhost',
         'PORT': '',
         
