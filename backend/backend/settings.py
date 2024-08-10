@@ -131,7 +131,6 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'myproject',
         'USER': 'myprojectuser',
-<<<<<<< Updated upstream
         'PASSWORD':'password',
         'HOST':'localhost',
         'PORT': '',
@@ -147,15 +146,6 @@ print("DATABASES:", DATABASES)
 #     }
 # }
 
-
-=======
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
-print("DATABASES:", DATABASES)
->>>>>>> Stashed changes
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -202,7 +192,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "accounts.User"
 
-<<<<<<< Updated upstream
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -211,20 +200,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-=======
-
-
-
-
-CHANNEL_LAYERS = {
-     "default": {
-         "BACKEND": "channels_redis.core.RedisChannelLayer",
-         "CONFIG": {
-             "hosts": [("127.0.0.1", 6379)],
-         },
-     },
- }
->>>>>>> Stashed changes
 
 # CHANNEL_LAYERS = {
 #     "default":{
