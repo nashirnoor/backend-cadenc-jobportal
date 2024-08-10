@@ -312,6 +312,17 @@ class SkillSerializer(serializers.ModelSerializer):
         model = Skill
         fields = ['id', 'name']
 
+class Jobupdateserializer(serializers.ModelSerializer):
+    class Meta:
+        model = Job
+        fields = [
+            'id','recruiter','job_title','job_type','salary','vacancies', 'experience', 'job_location', 'job_description', 'core_responsibilities', 'job_location_type','created_at', 'updated_at'
+
+        ]
+        read_only_fields = ['recruiter', 'created_at', 'updated_at']
+
+
+
 
 class JobSerializer(serializers.ModelSerializer):
     company_logo = serializers.SerializerMethodField()
@@ -328,11 +339,11 @@ class JobSerializer(serializers.ModelSerializer):
             'core_responsibilities', 'created_at', 'updated_at', 'company_logo',
             'company_name', 'deleted', 'applicants_count','skills', 'skill_ids','job_location_type'
         ]
-        read_only_fields = ['recruiter', 'created_at', 'updated_at']
+        read_only_fields = ['recruiter', 'created_at', 'updated_at','applicants_count']
         
 
     def get_applicants_count(self, obj):
-        return len(obj.applications)  
+        return obj.applications.count() 
 
     def get_company_logo(self, obj):
         try:

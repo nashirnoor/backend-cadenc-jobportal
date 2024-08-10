@@ -167,11 +167,13 @@ class PendingRecruitersView(APIView):
 
     def post(self, request, recruiter_id):
         action = request.data.get('action')
+        reason = request.data.get('reason')
+        print("First Reason",reason)
         try:
             recruiter = Recruiter.objects.get(id=recruiter_id, is_approved=False)
             if action == 'approve':
                 recruiter.is_approved = True
-                recruiter.is_verified = True  
+                recruiter.is_verified = True
                 recruiter.save()
                 
                 email_body = f"Hi {recruiter.first_name}, your recruiter account has been approved. You can now log in using the following link: http://localhost:5173/login"
@@ -184,7 +186,11 @@ class PendingRecruitersView(APIView):
                 
                 return Response({'message': 'Recruiter approved'}, status=status.HTTP_200_OK)
             elif action == 'reject':
-                email_body = f"Hi {recruiter.first_name}, we regret to inform you that your recruiter account has been rejected."
+                print(reason,"ddddddddddddddddddddddddd")
+                if not reason:
+                    return Response({'error': 'Reason for rejection is required'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                email_body = f"Hi {recruiter.first_name}, we regret to inform you that your recruiter account has been rejected. Reason: {reason}"
                 email_data = {
                     'email_subject': 'Recruiter Account Rejected',
                     'email_body': email_body,
@@ -198,7 +204,6 @@ class PendingRecruitersView(APIView):
                 return Response({'error': 'Invalid action'}, status=status.HTTP_400_BAD_REQUEST)
         except Recruiter.DoesNotExist:
             return Response({'error': 'Recruiter not found'}, status=status.HTTP_404_NOT_FOUND)
-
     
 
 class VerifyUserEmail(GenericAPIView):
@@ -429,7 +434,9 @@ class JobPostedList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Job.objects.filter(recruiter=self.request.user)
+        return Job.objects.filter(recruiter=self.request.user).annotate(
+            applicants_count=Count('applications')
+        )
     
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 10
@@ -480,6 +487,26 @@ def delete_job(request, job_id):
     job.deleted = True
     job.save()
     return Response({"message": "Job unlisted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+
+
+from .serializers import Jobupdateserializer
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_job(request, job_id):
+    try:
+        job = Job.objects.get(id=job_id, recruiter=request.user)
+    except Job.DoesNotExist:
+        return Response({"error": "Job not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = Jobupdateserializer(job, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 
@@ -915,7 +942,6 @@ def get_user_type(request):
 def get_job_applicants(request, job_id):
     try:
         job = Job.objects.get(id=job_id)
-        
         for app in job.applications:
             user = User.objects.get(id=app['user_id'])
             app['id'] = user.id  # Use the user's ID instead of generating a new UUID

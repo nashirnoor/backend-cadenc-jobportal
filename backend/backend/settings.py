@@ -121,10 +121,12 @@ DATABASES = {
         'NAME': 'cadenc',
         'USER':'postgres',
         'PASSWORD':'1111',
-        'HOST':'localhost'
+        'HOST':'localhost',
+        'PORT': '',
         
     }
 }
+print("DATABASES:", DATABASES)
 
 # DATABASES = {
 #     'default': {
@@ -180,20 +182,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "accounts.User"
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [("127.0.0.1", 6379)],
-#         },
-#     },
-# }
-
 CHANNEL_LAYERS = {
-    "default":{
-        "BACKEND":"channels.layers.InMemoryChannelLayer",
-        }
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
 }
+
+# CHANNEL_LAYERS = {
+#     "default":{
+#         "BACKEND":"channels.layers.InMemoryChannelLayer",
+#         }
+# }
 
 
 EMAIL_HOST = 'sandbox.smtp.mailtrap.io'

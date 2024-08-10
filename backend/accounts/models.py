@@ -157,6 +157,8 @@ class Job(models.Model):
                 app['status'] = status
                 break
         self.save()
+
+    
     
 
 

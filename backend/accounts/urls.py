@@ -35,6 +35,8 @@ urlpatterns = [
     path('skills/', SkillListCreateAPIView.as_view(), name='skill-list-create'),
     path('api/jobs/<int:pk>/', views.job_detail, name='job-detail'),
     path('jobs/delete/<int:job_id>/', views.delete_job, name='delete_job'),
+    path('jobs/update/<int:job_id>/', views.update_job, name='update_job'),
+
     path('company-profile-update/', views.update_company_about, name='update_company_about'),
     path('check-user-profile/', CheckUserProfileView.as_view(), name='check-user-profile'),
     path('create-user-profile/', CreateUserProfileView.as_view(), name='create-user-profile'),
