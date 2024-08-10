@@ -115,12 +115,23 @@ CORS_ALLOW_METHODS = (
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+"""
+
+# Ensure proper indentation
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+"""
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'myproject',
         'USER': 'myprojectuser',
+<<<<<<< Updated upstream
         'PASSWORD':'password',
         'HOST':'localhost',
         'PORT': '',
@@ -137,6 +148,14 @@ print("DATABASES:", DATABASES)
 # }
 
 
+=======
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+print("DATABASES:", DATABASES)
+>>>>>>> Stashed changes
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -183,6 +202,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "accounts.User"
 
+<<<<<<< Updated upstream
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -191,6 +211,20 @@ CHANNEL_LAYERS = {
         },
     },
 }
+=======
+
+
+
+
+CHANNEL_LAYERS = {
+     "default": {
+         "BACKEND": "channels_redis.core.RedisChannelLayer",
+         "CONFIG": {
+             "hosts": [("127.0.0.1", 6379)],
+         },
+     },
+ }
+>>>>>>> Stashed changes
 
 # CHANNEL_LAYERS = {
 #     "default":{
@@ -251,3 +285,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'backend.settings'
 
 CORS_ALLOW_ALL_ORIGINS = True  # For development only
 CORS_ALLOW_CREDENTIALS = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_DIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
